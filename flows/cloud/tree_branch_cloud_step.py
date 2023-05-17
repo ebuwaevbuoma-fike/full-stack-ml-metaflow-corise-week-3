@@ -1,13 +1,13 @@
-from metaflow import FlowSpec, step, card, conda, kubernetes
+from metaflow import FlowSpec, step, card, conda_base, kubernetes
 import json
 
-
+@conda_base(libraries={"scikit-learn": "1.1.1"}, python="3.10.10")
 class Branch_Cloud_Step(FlowSpec):
     """
     train multiple tree based methods
     """
 
-    @conda(libraries={"scikit-learn": "1.1.1"}, python="3.10.10")
+    # @conda(libraries={"scikit-learn": "1.1.1"}, python="3.10.10")
     @card(type="corise")
     @step
     def start(self):
@@ -24,7 +24,7 @@ class Branch_Cloud_Step(FlowSpec):
         self.next(self.rf_model, self.xt_model, self.dt_model)
 
     @kubernetes
-    @conda(libraries={"scikit-learn": "1.1.1"}, python="3.10.10")
+    # @conda(libraries={"scikit-learn": "1.1.1"}, python="3.10.10")
     @step
     def rf_model(self):
         """
@@ -40,7 +40,7 @@ class Branch_Cloud_Step(FlowSpec):
         self.next(self.choose_model)
 
     @kubernetes
-    @conda(libraries={"scikit-learn": "1.1.1"}, python="3.10.10")
+    # @conda(libraries={"scikit-learn": "1.1.1"}, python="3.10.10")
     @step
     def xt_model(self):
         """
@@ -57,7 +57,7 @@ class Branch_Cloud_Step(FlowSpec):
         self.next(self.choose_model)
 
     @kubernetes
-    @conda(libraries={"scikit-learn": "1.1.1"}, python="3.10.10")
+    # @conda(libraries={"scikit-learn": "1.1.1"}, python="3.10.10")
     @step
     def dt_model(self):
         """
@@ -74,7 +74,7 @@ class Branch_Cloud_Step(FlowSpec):
 
         self.next(self.choose_model)
 
-    @conda(libraries={"scikit-learn": "1.1.1"}, python="3.10.10")
+    # @conda(libraries={"scikit-learn": "1.1.1"}, python="3.10.10")
     @step
     def choose_model(self, inputs):
         """
@@ -89,7 +89,7 @@ class Branch_Cloud_Step(FlowSpec):
         self.model = self.results[0][0]
         self.next(self.end)
 
-    @conda(libraries={"scikit-learn": "1.1.1"})
+    # @conda(libraries={"scikit-learn": "1.1.1"})
     @step
     def end(self):
         """
